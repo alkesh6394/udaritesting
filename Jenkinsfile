@@ -10,12 +10,11 @@ node {
             deleteDir()
         }
         stage('Build') {
-                sh "docker build -t ${imageTag} ."
+                echo "hello"
+                sh ''' ls '''
             }
         }
-
         stage('Push_docker_image') {
-            sh "docker push ${imageTag}"
             echo "pushed ${imageTag}"
         }
 
