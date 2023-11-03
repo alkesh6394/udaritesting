@@ -10,14 +10,12 @@ node {
             deleteDir()
         }
         stage('Build') {
-                echo "hello"
-                sh ''' ls '''
-            }
+            echo "hello"
+            sh ''' ls '''
         }
         stage('Push_docker_image') {
             echo "pushed ${imageTag}"
         }
-
         stage('Deploy') {
             if (env.BRANCH_NAME == 'master') {
                 dir('public-api') { // Change to the desired directory
