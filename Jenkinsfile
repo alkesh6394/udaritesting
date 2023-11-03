@@ -1,7 +1,7 @@
 node {
     def buildNo = currentBuild.number
-    def commitId = sh(script: 'git rev-parse --short=6 HEAD', returnStdout: true).trim()
-    def imageTag = "udharibazaar:${buildNo}+${commitId}"
+    def commitId = ''
+    def imageTag = "udharibazaar:${buildNo}"
     def jobName = env.JOB_NAME
     def buildUrl = env.BUILD_URL
 
@@ -10,12 +10,18 @@ node {
             deleteDir()
         }
 
+        stage('Checkout Code') {
+            checkout scm
+        }
+
         stage('Build') {
-         sh '''ls '''
+            sh '''ls '''
         }
 
         stage('Push Docker Image') {
             if (env.BRANCH_NAME == 'master') {
+                commitId = sh(script: 'git rev-parse --short=6 HEAD', returnStdout: true).trim()
+                imageTag += "+${commitId}"
                 echo "Pushed ${imageTag}"
             } else {
                 echo "We cannot push the Docker image"
