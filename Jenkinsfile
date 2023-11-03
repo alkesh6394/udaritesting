@@ -1,7 +1,5 @@
 node {
-    def buildNo = currentBuild.number
-    def commitId = ''
-    def imageTag = "udharibazaar:${buildNo}"
+  
     def jobName = env.JOB_NAME
     def buildUrl = env.BUILD_URL
 
@@ -16,9 +14,15 @@ node {
 
         stage('Build') {
             sh '''ls '''
+    def buildNo = currentBuild.number
+    def commitId = sh(script: 'git rev-parse --short=6 HEAD', returnStdout: true).trim()
+    def imageTag = "udharibazaar:${buildNo}+${commitId}"
         }
 
         stage('Push Docker Image') {
+     def buildNo = currentBuild.number
+    def commitId = sh(script: 'git rev-parse --short=6 HEAD', returnStdout: true).trim()
+    def imageTag = "udharibazaar:${buildNo}+${commitId}"
             if (env.BRANCH_NAME == 'master') {
                 commitId = sh(script: 'git rev-parse --short=6 HEAD', returnStdout: true).trim()
                 imageTag += "+${commitId}"
@@ -29,6 +33,9 @@ node {
         }
 
         stage('Deploy') {
+     def buildNo = currentBuild.number
+    def commitId = sh(script: 'git rev-parse --short=6 HEAD', returnStdout: true).trim()
+    def imageTag = "udharibazaar:${buildNo}+${commitId}"
             if (env.BRANCH_NAME == 'master') {
                 input message: "Do you want to continue", ok: "Yes, we should"
                 echo "Apply ${imageTag}"
