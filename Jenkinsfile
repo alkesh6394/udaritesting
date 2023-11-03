@@ -1,9 +1,9 @@
 node {
-    def buildNo = currentBuild.number
-    def commitId = sh(script: 'git rev-parse --short=6 HEAD', returnStdout: true).trim()
-    def imageTag = "udharibazaar:${buildNo}+${commitId}"
-    def jobName = env.JOB_NAME
-    def buildUrl = env.BUILD_URL
+    // def buildNo = currentBuild.number
+    // def commitId = sh(script: 'git rev-parse --short=6 HEAD', returnStdout: true).trim()
+    // def imageTag = "udharibazaar:${buildNo}+${commitId}"
+    // def jobName = env.JOB_NAME
+    // def buildUrl = env.BUILD_URL
 
     try {
         stage('Clean Workspace') {
